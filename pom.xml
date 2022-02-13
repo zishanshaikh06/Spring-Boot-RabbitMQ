@@ -15,8 +15,27 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<esper-version>7.1.0</esper-version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
@@ -32,6 +51,43 @@
 			<artifactId>spring-rabbit-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper</artifactId>
+			<version>${esper-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.espertech/esperio-amqp -->
+		<!-- https://mvnrepository.com/artifact/com.espertech/esperio-amqp -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esperio-amqp</artifactId>
+			<version>8.8.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.espertech/esper-runtime -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper-runtime</artifactId>
+			<version>8.8.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.espertech/esper-common -->
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper-common</artifactId>
+			<version>8.8.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>5.14.2</version>
+		</dependency>
+
+
+
+
+
 	</dependencies>
 
 	<build>
@@ -42,5 +98,34 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>codehaus</id>
+			<name>Codehaus Release Repo</name>
+			<url>http://dist.codehaus.org/</url>
+		</repository>
+		<repository>
+			<id>codehaus-snapshot</id>
+			<name>Codehaus Snapshot Repo</name>
+			<url>http://snapshots.repository.codehaus.org</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus</id>
+			<name>Codehaus Release Repo</name>
+			<url>http://repository.codehaus.org</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>codehaus-snapshot</id>
+			<name>Codehaus Snapshot Repo</name>
+			<url>http://snapshots.repository.codehaus.org</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>

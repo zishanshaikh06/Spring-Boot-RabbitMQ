@@ -1,30 +1,22 @@
 package com.events.eventsprocessor;
 
-import java.util.concurrent.TimeUnit;
-
-import com.events.eventsprocessor.receiver.Receiver;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.events.eventsprocessor.util.RandomTemperatureEventGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Runner implements CommandLineRunner {
 
-    private final RabbitTemplate rabbitTemplate;
-    private final Receiver receiver;
+    @Autowired
+    RandomTemperatureEventGenerator randomTemperatureEventGenerator;
 
-    public Runner(Receiver receiver, RabbitTemplate rabbitTemplate) {
-        this.receiver = receiver;
-        this.rabbitTemplate = rabbitTemplate;
-    }
+    private static Logger LOG = LoggerFactory.getLogger(Runner.class);
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Sending message...");
-        for(int i=0;i<1000;i++){
-            rabbitTemplate.convertAndSend(EventsProcessorApplication.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ! "+i);
-        }
-        receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        randomTemperatureEventGenerator.startSendingTemperatureReadings(1000);
     }
-
 }

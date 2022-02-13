@@ -1,20 +1,25 @@
 package com.events.eventsprocessor.receiver;
 
-import java.util.concurrent.CountDownLatch;
+import com.events.eventsprocessor.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Receiver {
+public class Receiver implements RabbitListenerConfigurer {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private static Logger LOG = LoggerFactory.getLogger(Receiver.class);
 
-    public void receiveMessage(String message) {
-        System.out.println("Received <" + message + ">");
-        latch.countDown();
+    @Override
+    public void configureRabbitListeners(RabbitListenerEndpointRegistrar rabbitListenerEndpointRegistrar) {
+
     }
 
-    public CountDownLatch getLatch() {
-        return latch;
+    @RabbitListener(queues = "${spring.rabbitmq.queue}")
+    public void receive(User user) {
+        LOG.info("Received user: {}", user);
     }
-
 }
