@@ -14,7 +14,7 @@
 	<name>events-processor</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<esper-version>7.1.0</esper-version>
 	</properties>
 	<dependencies>
@@ -61,21 +61,10 @@
 		<dependency>
 			<groupId>com.espertech</groupId>
 			<artifactId>esperio-amqp</artifactId>
-			<version>8.8.0</version>
+			<version>${esper-version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.espertech/esper-runtime -->
-		<dependency>
-			<groupId>com.espertech</groupId>
-			<artifactId>esper-runtime</artifactId>
-			<version>8.8.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.espertech/esper-common -->
-		<dependency>
-			<groupId>com.espertech</groupId>
-			<artifactId>esper-common</artifactId>
-			<version>8.8.0</version>
-		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
 		<dependency>

@@ -1,8 +1,9 @@
 package com.events.eventsprocessor.event;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TemperatureEvent {
+public class TemperatureEvent implements Serializable {
     /** Temperature in Celcius. */
     private Double temperature;
 

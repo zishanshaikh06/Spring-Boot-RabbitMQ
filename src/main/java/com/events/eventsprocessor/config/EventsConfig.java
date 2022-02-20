@@ -1,12 +1,8 @@
 package com.events.eventsprocessor.config;
 
 import com.espertech.esper.client.EPAdministrator;
-import com.espertech.esper.client.EPRuntime;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
-import com.espertech.esper.client.dataflow.EPDataFlowInstance;
-import com.espertech.esperio.amqp.AMQPSink;
-import com.events.eventsprocessor.entity.User;
 import com.events.eventsprocessor.event.TemperatureEvent;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -39,6 +35,9 @@ public class EventsConfig {
     @Value("${spring.rabbitmq.host}")
     private String host;
 
+    @Value("${spring.rabbitmq.port}")
+    private String port;
+
     @Value("${spring.rabbitmq.temperature.exchange}")
     private String temperatureExchange;
 
@@ -53,8 +52,9 @@ public class EventsConfig {
         com.espertech.esper.client.Configuration config = new com.espertech.esper.client.Configuration();
         config.addEventTypeAutoName("com.events.eventsprocessor");
         config.addEventType(TemperatureEvent.class);
-        EPServiceProvider epServiceProvider = EPServiceProviderManager.getDefaultProvider(config);
-        return epServiceProvider;
+        EPServiceProvider epService = EPServiceProviderManager.getDefaultProvider(config);
+
+        return epService;
     }
 
     @Bean

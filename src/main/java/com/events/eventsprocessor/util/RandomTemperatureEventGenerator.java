@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.events.eventsprocessor.event.TemperatureEvent;
+import com.events.eventsprocessor.handler.TemperatureEventAMQPAdapterHandler;
 import com.events.eventsprocessor.handler.TemperatureEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,10 @@ public class RandomTemperatureEventGenerator {
     @Autowired
     private TemperatureEventHandler temperatureEventHandler;
 
-    public void startSendingTemperatureReadings(final long noOfTemperatureEvents) {
+    @Autowired
+    private TemperatureEventAMQPAdapterHandler temperatureEventAMQPAdapterHandler;
+
+    public void startSendingTemperatureReadings(final long noOfTemperatureEvents, String handler) {
 
         ExecutorService xrayExecutor = Executors.newSingleThreadExecutor();
 
@@ -37,7 +41,11 @@ public class RandomTemperatureEventGenerator {
                     double random = new Random().nextDouble();
                     double result = start + (random * (end - start));
                     TemperatureEvent ve = new TemperatureEvent(result, new Date());
-                    temperatureEventHandler.handle(ve);
+                    if("amqp".equals(handler)){
+                        temperatureEventAMQPAdapterHandler.handle(ve);
+                    } else {
+                        temperatureEventHandler.handle(ve);
+                    }
                     count++;
                     try {
                         Thread.sleep(200);

@@ -1,9 +1,6 @@
 package com.events.eventsprocessor.handler;
 
-import com.espertech.esper.client.Configuration;
-import com.espertech.esper.client.EPServiceProvider;
-import com.espertech.esper.client.EPServiceProviderManager;
-import com.espertech.esper.client.EPStatement;
+import com.espertech.esper.client.*;
 import com.espertech.esperio.amqp.AMQPSink;
 import com.events.eventsprocessor.event.TemperatureEvent;
 import com.events.eventsprocessor.subscriber.StatementSubscriber;
@@ -15,22 +12,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- * This class handles incoming Temperature Events. It processes them through the EPService, to which
- * it has attached the 3 queries.
- */
 @Component
 @Scope(value = "singleton")
 public class TemperatureEventHandler implements InitializingBean {
 
-    /**
-     * Logger
-     */
+
     private static Logger LOG = LoggerFactory.getLogger(TemperatureEventHandler.class);
 
-    /**
-     * Esper service
-     */
     private EPServiceProvider epService;
     private EPStatement criticalEventStatement;
     private EPStatement warningEventStatement;
@@ -59,31 +47,6 @@ public class TemperatureEventHandler implements InitializingBean {
         config.addEventType("OutputEvent", TemperatureEvent.class);
         config.addEventType(TemperatureEvent.class);
         epService = EPServiceProviderManager.getDefaultProvider(config);
-        /*
-        EPRuntime cepRT = epService.getEPRuntime();
-        EPAdministrator cepAdm = epService.getEPAdministrator();
-        cepAdm.getConfiguration().addImport(AMQPSink.class.getPackage().getName() + ".*");
-
-        String epl2 = "create Dataflow AMQPOutgoingDataFlow \n"
-                + "EventBusSource -> outstream<OutputEvent>{} \n"
-                + "AMQPSink(outstream)"
-                + "{host: 'localhost',"
-                + "port: 5672,"
-                + "username:'guest',"
-                + "password:'guest',"
-                + "exchange: 'temperature.exchange',"
-                + "routingKey: 'temperature.routingkey',"
-                + "queueName: 'temperature.queue',"
-                + "declareDurable: false,"
-                + "declareExclusive: false,"
-                + "declareAutoDelete: false,"
-                + "waitMSecNextMsg: 0,"
-                + "collector: {class: 'ObjectToAMQPCollectorSerializable'}, logMessages: true }";
-        cepAdm.createEPL(epl2);
-        EPDataFlowInstance instance2 = cepRT.getDataFlowRuntime().instantiate(
-                "AMQPOutgoingDataFlow");
-        instance2.start();
-         */
 
         createCriticalTemperatureCheckExpression();
         createWarningTemperatureCheckExpression();

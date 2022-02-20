@@ -30,7 +30,7 @@ public class ProducerController {
 
     @GetMapping(value = "events/generate")
     public String generate() {
-        randomTemperatureEventGenerator.startSendingTemperatureReadings(1000);
+        randomTemperatureEventGenerator.startSendingTemperatureReadings(1000, "");
         return "Events generation started successfully!!";
     }
 }

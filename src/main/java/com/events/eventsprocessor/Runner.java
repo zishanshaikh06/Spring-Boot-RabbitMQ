@@ -1,5 +1,6 @@
 package com.events.eventsprocessor;
 
+import com.events.eventsprocessor.handler.TemperatureEventHandler;
 import com.events.eventsprocessor.util.RandomTemperatureEventGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ public class Runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        randomTemperatureEventGenerator.startSendingTemperatureReadings(1000);
+        System.out.println(args);
+        LOG.info("Starting runner... args {}", args);
+        String handler = args.length > 0 ? args[0] : "";
+        randomTemperatureEventGenerator.startSendingTemperatureReadings(1000, handler);
     }
 }
